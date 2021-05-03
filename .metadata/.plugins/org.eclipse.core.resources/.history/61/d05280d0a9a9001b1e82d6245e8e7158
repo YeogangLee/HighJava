@@ -1,0 +1,21 @@
+package kr.or.ddit.basic;
+
+class Util {
+}
+
+class Pair<K, V> {
+	private K key;
+	private V value;
+	
+	public Pair(K key, V value){
+		super();
+		this.key = key;
+		this.value = value;
+	}
+}
+
+public class T03_GenericMethodTest_prc {
+	public static void main(String[] args) {
+		
+	}
+}

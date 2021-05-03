@@ -1,0 +1,33 @@
+package kr.or.ddit.basic;
+
+import javax.swing.JOptionPane;
+
+/**
+ * 멀티스레드를 활용한 카운트다운 처리 
+ * @author PC-14
+ *
+ */
+public class T06_ThreadTest {
+	//입력 여부 확인을 위한 변수 선언
+	//모든 스레드에서 공통으로 사용할 변수
+	public static boolean inputCheck = false;
+	
+	public static void main(String[] args) {
+		
+	}
+}
+
+/**
+ * 데이터를 입력받는 스레드
+ * @author PC-14
+ *
+ */
+class DataInput extends Thread {
+	@Override
+	public void run() {
+		String str = JOptionPane.showInputDialog("아무거나 입력하세요.");
+		//입력이 완료되면 inputCheck변수를 true로 변경
+		T06_ThreadTest.inputCheck
+		
+	}
+}

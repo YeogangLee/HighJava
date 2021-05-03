@@ -1,0 +1,122 @@
+package kr.or.ddit.basic;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class T05_WildcardTest {
+	/*
+	 * 와일드카드 선언 방법
+	 * 
+	 * <? extends T> : 와일드카드의 상한 제한. T와 그 자손들만 가능
+	 * <? super T>   : 와일드카드의 하한 제한. T와 그 자손들만 가능 //?(Object 제외)
+	 * <?>			 : 모든 타입이 가능 <? extends Object>와 동일
+	 */
+	
+	public static void main(String[] args) {
+		
+		FruitBox<Fruit> fruitBox = new FruitBox<>(); //과일상자
+		FruitBox<Apple> appleBox = new FruitBox<>(); //사과상자
+		
+		fruitBox.add(new Apple());
+		fruitBox.add(new Grape());
+		
+		appleBox.add(new Apple());
+		appleBox.add(new Apple());
+//		appleBox.add(new Grape()); //사과 상자에 포도 담기 불가능, 에러
+		
+		Juicer.makeJuice(fruitBox);
+		
+	}
+
+	
+	
+}
+
+class Juicer {
+	static void makeJuice(FruitBox<Fruit> box) {
+		String fruitListStr = ""; // 과일 목록
+		
+		int cnt = 0;
+		for(Fruit f : box.getFruitList()) {
+			if(cnt == 0) {
+				fruitListStr += f;
+			}else {
+				fruitListStr += "," + f;
+			}
+			cnt++;
+		}
+		System.out.println(fruitListStr + " => 주스 완성! ");
+	}
+}
+
+/**
+ * 과일
+ * @author PC-14
+ *
+ */
+
+class Fruit {
+	private String name; //과일 이름
+
+	public Fruit(String name) {
+		super();
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+}
+
+
+class Apple extends Fruit {
+	public Apple() {
+		super("사과");
+	}	
+}
+
+class Grape extends Fruit {
+	public Grape() {
+		super("포도");
+	}	
+}
+
+/**
+ * 과일 상자
+ * @param <T>
+ */
+class FruitBox<T> {
+	private List<T> fruitList;
+
+	public FruitBox() {
+		fruitList = new ArrayList<T>();
+	}
+	
+	public List<T> getFruitList() {
+		return fruitList;
+	}
+	public void setFruitList(List<T> fruitList) {
+		this.fruitList = fruitList;
+	}
+	
+	public void add(T fruit) {
+		fruitList.add(fruit);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

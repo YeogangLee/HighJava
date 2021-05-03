@@ -1,0 +1,7 @@
+package kr.or.ddit.basic;
+
+public class T11_PropertiesTest {
+	public static void main(String[] args) {
+		
+	}
+}

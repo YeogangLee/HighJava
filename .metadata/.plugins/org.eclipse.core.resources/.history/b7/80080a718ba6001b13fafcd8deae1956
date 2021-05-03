@@ -1,0 +1,93 @@
+package kr.or.ddit.basic;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class T03_ListSortTest {
+	/*
+	 * - 정렬 관련 Interface : Comparable, Comparator
+	 * 객체 자체에 정렬 기능 -> Comparable
+	 * 정렬 기준을 별도로 구현 -> Comparator
+	 * 
+  	 * Comparable : compareTo()
+	 * Comparator : compare()
+	 */
+
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<String>();
+		
+		list.add("일지매");
+		list.add("홍길동");
+		list.add("성춘향");
+		list.add("변학도");
+		list.add("이순신");
+
+		System.out.println("정렬 전 : "+list);
+		
+		//정렬 - Collections.sort()메서드
+		//정렬은 기본적으로 '오름차순 정렬'
+		//정렬 방식을 변경하려면 정렬방식을 결정하는 객체를 만들어서
+		//Collections.sort()메서드에 인수로 넘겨주면 된다.
+		
+		//Collection : Interface
+		//Collections : Class
+		Collections.sort(list); //오름차순
+		System.out.println("정렬 후 : " + list);
+		
+		//정렬 방식을 결정하는 객체를 이용하여 정렬하기
+		
+		
+		
+		
+		
+		
+		
+	}
+
+}
+
+package e_oop;
+
+public class ClassMaker2 {
+	
+	//명시적 초기화
+	int a = 10;
+	
+	//인스턴스 변수, 초기화 블럭으로 초기화
+	{
+		a = 20;
+	}
+	
+	//인스턴스 변수, 생성자의 파라미터를 사용해 초기화
+	ClassMaker2(int a){
+		//int a; 지역변수는 따로 작성하지 않는다.
+		
+		this.a = a;
+	}
+	
+	//생성자를 하나 더 만들어서 위에서 선언한 인스턴스 변수를 초기화 해주세요.
+	ClassMaker2(int a, int b){
+		//선생님
+		this(10); //생성자 호출은 생성자의 맨 첫 줄에 작성
+		
+		this.a = a;
+		this.a = b;
+		//this.b = a; //컴파일 에러
+		
+//		this(10);
+//		Constructor call must be the first statement in a constructor
+	}
+	
+	//3가지 방법 모두 다 사용했을 때
+	//누구에 의해 초기화 될까? 
+	//초기화 순서 : 1. 명시적 초기화 -> 2. 초기화 블럭 -> 3. 생성자
+	//그래서  최종적으로는 생성자가 초기화 한 값이 사용된다.
+	
+	public static void main(String[] args) {
+		System.out.println("a : "+ a);
+		System.out.println("a : "+ this.a);
+	}
+	
+}
+

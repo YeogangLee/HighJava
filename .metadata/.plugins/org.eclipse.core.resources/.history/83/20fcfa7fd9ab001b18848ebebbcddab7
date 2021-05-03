@@ -1,0 +1,10 @@
+package kr.or.ddit.basic;
+
+public class T03_ThreadTest {
+	public static void main(String[] args) {
+		/**
+		 * 스레드의 수행 시간 체크해 보기
+		 * 
+		 */
+	}
+}

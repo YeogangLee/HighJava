@@ -1,0 +1,11 @@
+package kr.or.ddit.basic;
+
+/**
+ * 제한된 타입 파라미터(Bounded Parameter) 예제
+ * @author PC-14
+ *  *
+ */
+
+public class T04_GenericMethodTest {
+
+}

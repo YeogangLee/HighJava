@@ -1,0 +1,43 @@
+package kr.or.ddit.basic;
+
+class Util {
+}
+
+class Pair<K, V> {
+	private K key;
+	private V value;
+	
+	public Pair(K key, V value){
+		super();
+		this.key = key;
+		this.value = value;
+	}
+
+	public K getKey() {
+		return key;
+	}
+
+	public void setKey(K key) {
+		this.key = key;
+	}
+
+	public V getValue() {
+		return value;
+	}
+
+	public void setValue(V value) {
+		this.value = value;
+	}
+	
+	public <K, V> void displayAll(K key, V val) {
+		System.out.println(key.toString() + " : " + val.toString());
+	}
+	
+}
+
+public class T03_GenericMethodTest_prc {
+	public static void main(String[] args) {
+		Pair<Integer, String> p1 = new Pair<Integer, String>(1, "홍길동");
+		Pair<Integer, String> p1 = new Pair<Integer, String>(1, "홍길동");
+	}
+}

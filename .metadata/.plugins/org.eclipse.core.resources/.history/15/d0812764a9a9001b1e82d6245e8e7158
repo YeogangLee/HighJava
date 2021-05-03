@@ -1,0 +1,12 @@
+package kr.or.ddit.basic;
+
+class Util {
+}
+
+class Pair<K, V> {
+}
+
+public class T03_GenericMethodTest_prc {
+	public static void main(String[] args) {
+	}
+}

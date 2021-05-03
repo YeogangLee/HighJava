@@ -1,0 +1,14 @@
+package kr.or.ddit.basic;
+
+import javax.swing.JOptionPane;
+
+/**
+ * 단일 스레드에서의 사용자 입력 처리 예제
+ * @author PC-14
+ *
+ */
+public class T05_ThreadTest {
+	public static void main(String[] args) {
+		String str = JOptionPane
+	}
+}

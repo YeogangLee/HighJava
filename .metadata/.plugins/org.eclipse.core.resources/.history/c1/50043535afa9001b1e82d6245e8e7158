@@ -1,0 +1,47 @@
+package kr.or.ddit.basic;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class T05_WildcardTest_prc {
+	public static void main(String[] args) {
+		
+	}
+}
+
+/**
+ * 과일 주스기
+ * @author PC-14
+ *
+ */
+
+class Juicer_prc {
+	
+}
+
+/**
+ * 과일
+ * @author PC-14
+ *
+ */
+
+class Obst {
+	
+}
+
+
+class Apple extends Obst {
+		
+}
+
+class Grape extends Obst {
+		
+}
+
+/**
+ * 과일 상자
+ * @param <T>
+ */
+class FruitBox<T> {
+	
+}

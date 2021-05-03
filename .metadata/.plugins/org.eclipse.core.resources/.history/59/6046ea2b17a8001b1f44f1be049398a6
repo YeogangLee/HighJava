@@ -1,0 +1,62 @@
+package homework;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class JavaCollectionFramework_Lotto {
+	private Scanner scan;
+	private Map<String, Phone> phoneBookMap;
+	
+	public JavaCollectionFramework_Lotto() {
+		scan = new Scanner(System.in);
+		phoneBookMap = new HashMap<>();
+		//시험용 데이터
+//		phoneBookMap.put("길동", new Phone("길동","010-3333-9999","대한민국"));
+//		phoneBookMap.put("김겨울", new Phone("김겨울","010-1111-7777","덴마크"));
+	}
+	public static void main(String[] args) {
+		new JavaCollectionFramework_Lotto().startLotto();		
+	}	
+	
+	public void displayMenu(){
+		System.out.println("==========================");
+		System.out.println("		Lotto 프로그램	");
+		System.out.println("--------------------------");
+		System.out.println(" 1. Lotto 구입");
+		System.out.println(" 2. 프로그램 종료");
+		System.out.println("==========================");
+		System.out.println("메뉴선택 : ");
+	}
+	
+	public void startLotto(){
+		
+		while(true){			
+			displayMenu();  // 메뉴 출력
+			int menuNum = scan.nextInt();   // 메뉴 번호 입력
+			switch(menuNum){
+				case 1 : buyLotto();		// Lotto 구입
+					break;
+				case 2 : 					// 종료
+					System.out.println("감사합니다");
+					return;
+				default :
+					System.out.println("잘못 입력했습니다. 다시입력하세요.");
+			} // switch문
+		} // while문
+	}
+	
+	private void buyLotto() {
+		System.out.println("로또 구입");
+		System.out.println("(1000원에 로또번호 하나입니다.)");
+		System.out.println("금액 입력 : ");
+		int money = scan.nextInt();
+		
+		showLotto();
+	}
+	
+	private void showLotto(int count) {
+		System.out.println("행운의 로또번호는 아래와 같습니다.");
+		
+	}
+}

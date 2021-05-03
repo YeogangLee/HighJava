@@ -1,0 +1,19 @@
+package kr.or.ddit.basic;
+
+public class T03_ThreadTest {
+	public static void main(String[] args) {
+		//스레드의 수행 시간 체크해 보기
+		Thread th = new Thread(new MyRunner());
+	}
+}
+
+class myRunner implements Runnable {
+
+	//1~1,000,000,000(10억)
+	@Override
+	public void run() {
+		
+		
+	}
+	
+}

@@ -1,0 +1,8 @@
+package kr.or.ddit.basic;
+
+public class T01_ThreadTest {
+	public static void main(String[] args) {
+		//싱글 스레드 프로그램
+		
+	}
+}

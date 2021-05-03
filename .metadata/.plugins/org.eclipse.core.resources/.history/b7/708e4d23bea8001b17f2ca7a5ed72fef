@@ -1,0 +1,21 @@
+package kr.or.ddit.basic;
+
+class Util2 {
+	public static <T> int compare(T t1, T t2) {
+//		double v1 = t1
+		
+		return 0l
+	}
+}
+
+/**
+ * 제한된 타입 파라미터(Bounded Parameter) 예제
+ * @author PC-14
+ * ex.String 타입을 상속받은 애들만 오게 하고 싶을 때 사용
+ * 
+ * 
+ */
+
+public class T04_GenericMethodTest {
+	
+}

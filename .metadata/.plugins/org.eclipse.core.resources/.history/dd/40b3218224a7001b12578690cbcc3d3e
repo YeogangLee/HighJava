@@ -1,0 +1,83 @@
+package kr.or.ddit.basic;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+/*
+ * - List와 Set의 차이점
+ * 
+ * 1. List
+ *   - 입력한 데이터의 순서O
+ *   - 중복되는 데이터 저장O
+ *   
+ * 2. Set
+ *   - 입력한 데이터의 순서X
+ *   - 중복되는 데이터 저장X
+ */
+
+public class T05_SetTest {
+	public static void main(String[] args) {
+		Set hs1 = new HashSet();
+		
+		//Set에 데이터를 추가할 때 list처럼 add()메서드 사용
+		hs1.add("DD");
+		hs1.add("AA");
+		hs1.add(2); // int는 Object, Integer로 저장된다.
+		hs1.add("CC");
+		hs1.add("BB");
+		hs1.add(1);
+		hs1.add(3);
+		
+		System.out.println("Set 데이터 : " + hs1);
+		System.out.println();
+		
+		//1.Set 데이터 추가
+		//Set은 데이터 순서X, 중복 허용X
+		//그래서 이미 있는 데이터를 add하면 false를 반환하고, 데이터는 추가되지 않는다.
+		boolean isAdd = hs1.add("FF");
+		System.out.println("중복되지 않을 때 : " + isAdd);
+		System.out.println("Set 데이터 : " + hs1);
+		System.out.println();
+		
+		isAdd = hs1.add("CC"); //중복되는 데이터
+		System.out.println("중복될 때 : " + isAdd);
+		System.out.println("Set 데이터 : " + hs1);
+		System.out.println();
+		
+		//2.Set 데이터 수정
+		//수정하는 명령이 따로 없기 때문에 해당 자료를 삭제한 후 새로운 데이터를 추가해야 한다.
+		/*
+		 * 1) clear() : Set 데이터 전체 삭제
+		 * 2) remove(삭제할자료) : 해당 자료 삭제
+		 */
+		
+		//예) 'FF'를 'EE'로 수정하기
+		hs1.remove("FF");
+		System.out.println("삭제 후 Set 데이터 : "+hs1);
+		System.out.println();
+		
+		hs1.add("EE"); //EE자료 추가
+		System.out.println("Set 데이터 : " + hs1);
+		System.out.println();
+		
+		//hs1.clear(); //전체 자료 삭제
+		//System.out.println("clear 후 Set 데이터 : " + hs1);
+		System.out.println("Set의 자료 개수: "+hs1.size());
+		System.out.println();
+		
+		//Set은 데이터의 순서가 없기 때문에 List처럼 인덱스로 데이터를 불러올 수 없다.
+		//-> Iterator 객체 이용
+		
+		//Set의 데이터를 Iterator로 변환하기 => Set의 iterator() 메서드 호출
+		Iterator itr = hs1.iterator();
+		
+		//데이터 개수만큼 반복하기
+		//hasNext() 메서드 => 포인터 다음 위치에 데이터가 있으면 true, 없으면 false를 반환한다.
+		while(itr.hasNext()) {//다음 자료가 있는지 검사
+			//next()메서드 => 포인터를 다음 자료 위치로 이동하고, 이동한 위치의 자료를 반환
+			System.out.println(itr.next());
+			
+		}
+	}
+}
