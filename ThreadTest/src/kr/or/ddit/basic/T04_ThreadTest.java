@@ -1,7 +1,5 @@
 package kr.or.ddit.basic;
 
-import org.omg.Messaging.SyncScopeHelper;
-
 public class T04_ThreadTest {
 /**
  * 1 ~ 20까지의 합계를 구하는 데 걸린 시간 체크하기
@@ -25,8 +23,7 @@ public class T04_ThreadTest {
 		
 		long endTime = System.currentTimeMillis();
 		
-		System.out.println("단독으로 처리할 때의 처리 시간 : " + (endTime - startTime));
-		System.out.println("\n\n");
+		System.out.println("단독으로 처리할 때의 처리 시간 : " + (endTime - startTime) + "\n");
 		
 		//여러 쓰레드가 협력해서 처리했을 때
 		SumThread[] sumThs = new SumThread[] {
@@ -36,29 +33,27 @@ public class T04_ThreadTest {
 			new SumThread(1500000000L, 2000000000L)
 		};
 			
-			startTime = System.currentTimeMillis();
-			for(int i = 0; i < sumThs.length; i++) {
-				sumThs[i].start();
-			}
-		
-			for(SumThread s : sumThs) {
-//				s.join(); //try-catch X??
-/*//				try {
-//					//join - 참여하다
-//					//th의 run() 수행이 끝나고 콜스택은 비워지고 그 콜스택은 알아서 죽는다(사라진다)
-//					//이후에 main이 순서대로 코드 실행 ...
-//					s.join();
-//					//현재 실행 중인 스레드에서 작업 중인 스레드(지금은 th스레드)가
-//					//종료될 때까지 기다린다.
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-*/			}
-			
-			endTime = System.currentTimeMillis();
-			System.out.println("협력 처리했을 때의 처리 시간 : " + (endTime - startTime));
-			
+		startTime = System.currentTimeMillis();
+		for(int i = 0; i < sumThs.length; i++) {
+			sumThs[i].start();
 		}
+	
+		for(SumThread s : sumThs) {
+			try {
+				//join - 참여하다
+				//th의 run() 수행이 끝나고 콜스택은 비워지고 그 콜스택은 알아서 죽는다(사라진다)
+				//이후에 main이 순서대로 코드 실행 ...
+				s.join();
+				//현재 실행 중인 스레드에서 작업 중인 스레드(지금은 th스레드)가
+				//종료될 때까지 기다린다.
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		endTime = System.currentTimeMillis();
+		System.out.println("협력 처리했을 때의 처리 시간 : " + (endTime - startTime));
+			
 	}
 }
 
@@ -75,6 +70,10 @@ class SumThread extends Thread {
 		for(long i=min; i<=max; i++) {
 			sum += i;
 		}
-		System.out.println(min + " ~ " + max + "까지의 합 : " + sum);
+		if(min == 1) {
+			System.out.println(min + "\t  ~ " + max + "\t\t까지의 합 : " + sum);
+		}else {
+			System.out.println(min + " ~ " + max + "\t\t까지의 합 : " + sum);
+		}		
 	}
 }
