@@ -19,16 +19,16 @@ public class T04_ListSortTest_delAnno {
 		stuList.add(new Student("20211102", "백미키", 2, 98, 20));
 		//랭킹 이중for문, 위에 i==j continue, 밑에 조건문 stuList.get(j).rank();
 		
-		for(int i = 0; i < stuList.size(); i++){
-			for(int j = 0; j < stuList.size(); j++){
-				if(i==j) {
-					continue;
-				}
-				if(stuList.get(i).getTotal()>stuList.get(j).getTotal()) {
-					stuList.get(j).downRank();
-				}
-			}
-		}
+//		for(int i = 0; i < stuList.size(); i++){
+//			for(int j = 0; j < stuList.size(); j++){
+//				if(i==j) {
+//					continue;
+//				}
+//				if(stuList.get(i).getTotal()>stuList.get(j).getTotal()) {
+//					stuList.get(j).downRank();
+//				}
+//			}
+//		}
 		
 		
 		System.out.println("정렬 전");
@@ -57,7 +57,7 @@ public class T04_ListSortTest_delAnno {
 
 		
 		//외부 정렬 기준을 이용한 정렬하기
-		Collections.sort(stuList, new SortTotalDesc());
+//		Collections.sort(stuList, new SortTotalDesc());
 
 		//내가 지금 만든 객체 자체(Member)에 정렬 기능 부여 - Comparable 컴? 페어러블
 		System.out.println("총점의 내림차순으로 정렬 후...");
@@ -76,22 +76,22 @@ public class T04_ListSortTest_delAnno {
  * Member의 번호(num)의 내림차순으로 정렬하기
  */
 
-class SortTotalDesc implements Comparator<Student>{
-
-	@Override
-	public int compare(Student stu1, Student stu2) {
-		if(stu1.getTotal() > stu2.getTotal()) {
-			return -1;
-		}else if(stu1.getTotal() == stu2.getTotal()) {
-			if(stu1.getStuNo() > stu2.getStuNo()) {
-				return -1;
-			}
-			return 0;
-		}else {
-			return 1;
-		}
-	}
-}
+//class SortTotalDesc implements Comparator<Student>{
+//
+//	@Override
+//	public int compare(Student stu1, Student stu2) {
+//		if(stu1.getTotal() > stu2.getTotal()) {
+//			return -1;
+//		}else if(stu1.getTotal() == stu2.getTotal()) {
+//			if(stu1.getStuNo() > stu2.getStuNo()) {
+//				return -1;
+//			}
+//			return 0;
+//		}else {
+//			return 1;
+//		}
+//	}
+//}
 
 class GetIndexOf{
 	

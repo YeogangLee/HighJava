@@ -11,26 +11,6 @@ public class JavaCollectionFramework_Hotel {
 	
 	public static void main(String[] args) {
 		new JavaCollectionFramework_Hotel().startHotel();		
-	}	
-	
-	public void displayState(boolean state){
-		if(state) {
-			System.out.println("\n**************************\r\n" 
-								+ "호텔 문을 열었습니다.\r\n" + 
-							   "**************************\n");
-		}else {
-			System.out.println("\n**************************\r\n" 
-								+ "호텔 문을 닫습니다.\r\n" + 
-							   "**************************\n");
-		}
-	}
-	
-	public void displayMenu(){
-		System.out.println("*******************************************");
-		System.out.println("어떤 업무를 하시겠습니까?");
-		System.out.println("[1.체크인  2.체크아웃  3.객실 상태  4.업무 종료]");
-		System.out.println("*******************************************");
-		System.out.print("메뉴선택 => ");
 	}
 	
 	public void startHotel(){
@@ -94,11 +74,32 @@ public class JavaCollectionFramework_Hotel {
 				//1. Guest 클래스의 toString을 사용해서 출력
 //				System.out.println(hs.get(roomNo));
 				//2. println에 적어준 대로 일일이 지정해서 출력
-				System.out.println("방번호 : " + roomNo + ", 투숙객 : " + hs.get(roomNo).getGuestName());
+				System.out.println("| 방번호 : " + roomNo + "\t| 투숙객 : " + hs.get(roomNo).getGuestName());
 			}
 			System.out.println();
 		}
 	}
+	
+	public void displayState(boolean state){
+		if(state) {
+			System.out.println("\n===========================================\n" 
+								+ "호텔 문을 열었습니다.\r\n" + 
+							   "===========================================\n");
+		}else {
+			System.out.println("\n===========================================\n" 
+								+ "호텔 문을 닫습니다.\r\n" + 
+							   "===========================================");
+		}
+	}
+	
+	public void displayMenu(){
+		System.out.println("*******************************************");
+		System.out.println("어떤 업무를 하시겠습니까?");
+		System.out.println("[1.체크인  2.체크아웃  3.객실 상태  4.업무 종료]");
+		System.out.println("*******************************************");
+		System.out.print("메뉴선택 => ");
+	}
+	
 }
 
 class Guest {
@@ -127,6 +128,6 @@ class Guest {
 	@Override
 	public String toString() {
 		//방번호 : 101, 투숙객 : 홍길동
-		return "방번호 : " + roomNo + ", 투숙객 : " + guestName;
+		return "| 방번호 : " + roomNo + "\t| 투숙객 : " + guestName;
 	}
 }

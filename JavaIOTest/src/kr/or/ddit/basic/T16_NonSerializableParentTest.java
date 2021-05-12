@@ -48,7 +48,7 @@ public class T16_NonSerializableParentTest {
 		
 		FileInputStream fis = new FileInputStream("d:/D_Other/nonSerializableTest.bin");
 		ObjectInputStream ois = new ObjectInputStream(fis);
-		Child child2 = (Child) ois.readObject(); //역직렬화
+		Child child2 = (Child) ois.readObject(); //역직렬화 deserialization
 		
 		System.out.println("parentName : " + child2.getParentName());
 		System.out.println("childName : " + child2.getChildName());
@@ -95,7 +95,7 @@ class Child extends Parent implements Serializable {
 	 * (접근 제한자가 private이 아니면 자동호출되지 않음)
 	 * @param out
 	 * @throws IOException
-	 */
+	 */	
 	//접근제어자는 private으로 해야 한다.
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeUTF(getParentName());

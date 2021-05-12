@@ -59,7 +59,7 @@ public class T09_FileEncodingTest {
 			ex.printStackTrace();
 		}finally {
 			try {
-				isr.close(); //보조 스트림만 닫아도 된다.
+				isr.close(); //보조 스트림만 닫아도, 기반 스트림이 자동으로 닫힌다.
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
