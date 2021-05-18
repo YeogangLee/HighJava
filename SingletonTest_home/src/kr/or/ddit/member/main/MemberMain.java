@@ -1,5 +1,4 @@
 package kr.or.ddit.member.main;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,47 +6,15 @@ import kr.or.ddit.member.service.IMemberService;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.member.vo.MemberVO;
 
-/*
-	회원정보를 관리하는 프로그램을 작성하는데 
-	아래의 메뉴를 모두 구현하시오. (CRUD기능 구현하기)
-	(DB의 MYMEMBER테이블을 이용하여 작업한다.)
-	
-	* 자료 삭제는 회원ID를 입력 받아서 삭제한다.
-	
-	예시메뉴)
-	----------------------
-		== 작업 선택 ==
-		1. 자료 입력			---> insert
-		2. 자료 삭제			---> delete
-		3. 자료 수정			---> update
-		4. 전체 자료 출력	---> select
-		5. 작업 끝.
-	----------------------
-	 
-	   
-// 회원관리 프로그램 테이블 생성 스크립트 
-create table mymember(
-    mem_id varchar2(8) not null,  -- 회원ID
-    mem_name varchar2(100) not null, -- 이름
-    mem_tel varchar2(50) not null, -- 전화번호
-    mem_addr varchar2(128),    -- 주소
-    CONSTRAINT MYMEMBER_PK PRIMARY KEY (mem_id)
-);
-
-*/
 public class MemberMain {
 	
-	//기존의 conn, pstmt, stmt, rs 다 날리고
-	//인터페이스형 서비스 객체 생성
-	//인터페이스 내부의 각 추상메서드를 Override해서 사용 가능
-	private IMemberService memService;	
+	private IMemberService memService;
 	
 	private Scanner scan = new Scanner(System.in); 
 	
 	public MemberMain() {
-		memService = new MemberServiceImpl();
-	}
-	
+		memService = MemberServiceImpl.getInstance(); //싱글톤 패턴
+	}	
 	
 	/**
 	 * 메뉴를 출력하는 메서드
@@ -103,15 +70,8 @@ public class MemberMain {
 	 * 회원 정보를 검색하는 메서드
 	 */
 	private void searchMember() {
-	/*
-	 * 검색할 회원ID, 회원 이름, 전화번호, 주소 등을 입력하면
-	 * 입력한 정보만 사용하여 검색하는 기능을 구현하시오.
-	 * 주소는 입력한 값이 포함만 되어도 검색되도록 한다.
-	 * 입력을 하지 않을 자료는 엔터키로 다음 입력으로 넘긴다.
-	 * -> 전부 nextLine()으로 입력받기, 버퍼를 비워주는 nextLine()도 필요 없다.
-	 *    단, 자료 입력받는 제일 앞에서 버퍼 비워주기 scan.nextLine()
-	 */ 
-		scan.nextLine();
+		
+		scan.nextLine();  //입력 버퍼 비우기
 		System.out.println();
 		System.out.println("검색할 회원 정보를 입력하세요.");
 		System.out.print("회원 ID >> ");
@@ -131,6 +91,7 @@ public class MemberMain {
 		mv.setMemName(memName);
 		mv.setMemTel(memTel);
 		mv.setMemAddr(memAddr);
+		
 		
 		//입력한 정보로 검색한 정보를 출력하는 부분
 		System.out.println();		
@@ -188,7 +149,6 @@ public class MemberMain {
 			
 			chk = checkMember(memId);		
 			
-			//회원이 존재해야 수정의 의미가 있으므로
 			if(chk == false) {
 				System.out.println("회원 ID가 " + memId + "인 회원은 없는 회원입니다."); 
 				System.out.println("ID를 다시 입력하세요.");
@@ -300,7 +260,6 @@ public class MemberMain {
 	 * @return 존재하면 true, 아니면 false
 	 */
 	
-	//오타 뭐야 Member
 	private boolean checkMember(String memId) {
 		
 		boolean check = false;

@@ -11,12 +11,26 @@ import java.util.List;
 import kr.or.ddit.member.vo.MemberVO;
 import kr.or.ddit.util.JDBCUtil3;
 
-public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 클래스라는 의미
+public class MemberDaoImpl implements IMemberDao { //IMemberDao의 실제 구현(implements) 클래스라는 의미
 
 //	private Connection conn;
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	//Singleton으로 바꾸기
+	private static IMemberDao memDao;
+	
+	private MemberDaoImpl() {
+		
+	}
+	
+	public static IMemberDao getInstance() {
+		if(memDao == null) {
+			memDao = new MemberDaoImpl();
+		}
+		return memDao;
+	}
 
 	@Override
 	public int insertMember(Connection conn, MemberVO mv) throws SQLException {
@@ -35,48 +49,6 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 		int cnt = pstmt.executeUpdate();
 		
 		JDBCUtil3.disConnect(null, stmt, pstmt, rs);
-		//처음부터 커넥션을 여기서 만들지 않고
-		//서비스에서 파라미터로 넘겨주는 이유?
-		//여기 프로젝트에서는 이렇게 필요없지만 ...
-		//트랜잭션을 사용할시
-		//트랜잭션 : 논리적인 작업 단위
-		//회원 insert하고 끝날 수도 있겠지만
-		/*
-		 * 입출금 과정  - 비즈니스 로직
-		 * 계좌에서 돈 인출, 잔고 줄이기, 계좌에 추가, 잔고 늘리기
-		 * 중간에 에러 발생!
-		 * 
-		 * 출금 계좌에서만 돈이 사라지는 문제
-		 * -> 하나의 묶음으로 처리
-		 * 그래서 하나의 트랜잭션을 잘 묶어야 한다
-		 * 중간에 에러 발생시 Rollback
-		 * 트랜잭션 - ALL or Nothing
-		 * 
-		 * ibatis에서 startTransaction()등의 메서드 ...
-		 * 
-		 * 그래서 커넥션이 중요한 의미를 가진다
-		 * 트랜잭션이 길어질 수 있다
-		 * conn이 close()되기 전까지 하나의 트랜잭션으로 묶을 수 있다.
-		 * ex.
-		 * try안에서
-		 * cnt = memDao.insert(conn,mv)...
-		 * cnt = memDao.update(conn,mv)...
-		 * mailDao.어쩌구(conn)
-		 * => 모두 같은 Connection으로 연결되어 있다
-		 * 
-		 * //자바의 오토커밋 해제 방법
-		 * conn.setAutoCommit(false);
-		 * 
-		 * //커밋 방법
-		 * conn.commit();
-		 * try안에서 commit이 일어나므로 위에 코드 수행하다가 에러 발생하면 commit() 수행X
-		 * -> 에러 발생 이후 catch블럭로 넘어가게 된다
-		 * 
-		 * catch 블럭에서 conn.rollback();
-		 * 
-		 * conn을 자꾸 매개변수로 넘기니
-		 * 심플하지 않은 코드가 되었지만, 추후의 트랜잭션 작업을 생각하면 이게 맞다
-		 */
 		
 		return cnt;
 	}
@@ -87,7 +59,7 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 		boolean check = false;
 				
 		String sql = "select count(*) as cnt from mymember "
-				+ " where mem_id = ? "; //물음표 > PreparedStatement이용
+				+ " where mem_id = ? ";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, memId);
 		
@@ -102,6 +74,8 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 		if(count > 0) {
 			check = true;
 		}
+		
+		JDBCUtil3.disConnect(null, stmt, pstmt, rs);
 			
 		return check;
 	}
@@ -130,6 +104,8 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 			memList.add(mv);
 		}
 		
+		JDBCUtil3.disConnect(null, stmt, pstmt, rs);
+		
 		return memList;
 	}
 
@@ -149,6 +125,8 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 		pstmt.setString(4, mv.getMemId());
 		
 		int cnt = pstmt.executeUpdate();
+		
+		JDBCUtil3.disConnect(null, stmt, pstmt, rs);
 				
 		return cnt;
 	}
@@ -162,6 +140,8 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 		pstmt.setString(1, memId);
 		int cnt = pstmt.executeUpdate();
 		
+		JDBCUtil3.disConnect(null, stmt, pstmt, rs);
+		
 		return cnt;
 	}
 
@@ -170,13 +150,9 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 		
 		List<MemberVO> memList= new ArrayList<MemberVO>();
 		
-		//쿼리 작성
-		//생각해야 할 부분: 쿼리를 동적으로 만들어야 하는 시점 -> Dynamic Query
-		//ex.정보를 1개만 넣었을 때, 모든 정보(4개)를 넣었을 때 ... 모두 경우를 처리할 수 있도록 
+		String sql = "select * from mymember where 1=1 "; 
 		
-		String sql = "select * from mymember where 1=1 "; //where 1=1은 나중에 필요를 알게 될 것
-		
-		if(mv.getMemId() != null && !mv.getMemId().equals("")) { //아이디가 존재해야 if문 블럭 수행
+		if(mv.getMemId() != null && !mv.getMemId().equals("")) { 
 			sql += " and mem_id = ? "; 
 		}
 		if(mv.getMemName() != null && !mv.getMemName().equals("")) {
@@ -186,15 +162,15 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 			sql += " and mem_tel = ? "; 
 		}
 		if(mv.getMemAddr() != null && !mv.getMemAddr().equals("")) {
-			sql += " and mem_addr like '%' || ? || '%' "; //주소는 LIKE 검색으로 변경 
+			sql += " and mem_addr like '%' || ? || '%' "; 
 		}
-		
-		//물음표 세팅
-		//물음표의 위치가 다이나믹 해졌다.
+
+		//pstmt에 작성한 쿼리 넣기
 		pstmt = conn.prepareStatement(sql);
 		
+		//물음표 값 세팅
 		int index = 1; //물음표 시작값이 1이기 때문에 초기화 값은 1
-		if(mv.getMemId() != null && !mv.getMemId().equals("")) { //아이디가 존재해야 if문 블럭 수행
+		if(mv.getMemId() != null && !mv.getMemId().equals("")) {
 			pstmt.setString(index++, mv.getMemId());
 		}
 		if(mv.getMemName() != null && !mv.getMemName().equals("")) {
@@ -207,6 +183,7 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 			pstmt.setString(index++, mv.getMemAddr());
 		}
 		
+		//완전한 쿼리(pstmt + 물음표) 넘겨주기
 		rs = pstmt.executeQuery();
 		
 		while(rs.next()) {
@@ -223,17 +200,9 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 			memList.add(mv2);
 		}
 		
+		JDBCUtil3.disConnect(null, stmt, pstmt, rs);
+		
 		return memList;
 	} 
 	
 }
-
-
-
-
-
-
-
-
-
-

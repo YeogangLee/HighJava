@@ -1,12 +1,11 @@
-package kr.or.ddit.basic;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+package kr.or.ddit.member.main;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-import kr.or.ddit.util.JDBCUtil3;
+import kr.or.ddit.member.service.IMemberService;
+import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.member.vo.MemberVO;
 
 /*
 	회원정보를 관리하는 프로그램을 작성하는데 
@@ -36,14 +35,20 @@ create table mymember(
 );
 
 */
-public class T01_MemberInfoTest {
+public class MemberMain {
 	
-	private Connection conn;
-	private Statement stmt;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
+	//기존의 conn, pstmt, stmt, rs 다 날리고
+	//서비스 객체 생성
+	private IMemberService memService;
 	
 	private Scanner scan = new Scanner(System.in); 
+	
+	public MemberMain() {
+//		memService = new MemberServiceImpl();
+		memService = MemberServiceImpl.getInstance();
+	}
+	
+	
 	
 	/**
 	 * 메뉴를 출력하는 메서드
@@ -56,7 +61,8 @@ public class T01_MemberInfoTest {
 		System.out.println("  2. 자료 삭제");
 		System.out.println("  3. 자료 수정");
 		System.out.println("  4. 전체 자료 출력");
-		System.out.println("  5. 작업 끝.");
+		System.out.println("  5. 자료 검색");
+		System.out.println("  6. 작업 끝.");
 		System.out.println("----------------------");
 		System.out.print("원하는 작업 선택 >> ");
 	}
@@ -82,15 +88,72 @@ public class T01_MemberInfoTest {
 				case 4 :  // 전체 자료 출력
 					displayMemberAll();
 					break;
-				case 5 :  // 작업 끝
+				case 5 :  // 자료 검색
+					searchMember();
+					break;
+				case 6 :  // 작업 끝
 					System.out.println("작업을 마칩니다.");
 					break;
 				default :
 					System.out.println("번호를 잘못 입력했습니다. 다시입력하세요");
 			}
-		}while(choice!=5);
+		}while(choice!=6);
 	}	
 	
+	/**
+	 * 회원 정보를 검색하는 메서드
+	 */
+	private void searchMember() {
+	/*
+	 * 검색할 회원ID, 회원 이름, 전화번호, 주소 등을 입력하면
+	 * 입력한 정보만 사용하여 검색하는 기능을 구현하시오.
+	 * 주소는 입력한 값이 포함만 되어도 검색되도록 한다.
+	 * 입력을 하지 않을 자료는 엔터키로 다음 입력으로 넘긴다.
+	 * -> 전부 nextLine()으로 입력받기, 버퍼를 비워주는 nextLine()도 필요 없다.
+	 *    단, 자료 입력받는 제일 앞에서 버퍼 비워주기 scan.nextLine()
+	 */ 
+		scan.nextLine();
+		System.out.println();
+		System.out.println("검색할 회원 정보를 입력하세요.");
+		System.out.print("회원 ID >> ");
+		String memId = scan.nextLine().trim();
+		
+		System.out.print("회원 이름 >> ");
+		String memName = scan.nextLine().trim();
+		
+		System.out.print("회원 전화번호 >> ");
+		String memTel = scan.nextLine().trim();
+		
+		System.out.print("회원 주소 >> ");
+		String memAddr = scan.nextLine().trim();
+		
+		MemberVO mv = new MemberVO();
+		mv.setMemId(memId);
+		mv.setMemName(memName);
+		mv.setMemTel(memTel);
+		mv.setMemAddr(memAddr);
+		
+		
+		//입력한 정보로 검색한 정보를 출력하는 부분
+		System.out.println();		
+		System.out.println("-------------------------------------------");
+		System.out.println("ID\t이 름\t전화번호\t\t주    소\t");
+		System.out.println("-------------------------------------------");
+		
+		List<MemberVO> memList = memService.getSearchMember(mv);
+		if(memList.size() == 0) {
+			System.out.println("검색한 회원정보가 존재하지 않습니다.");
+		}else {
+			for(MemberVO mv2 : memList) {
+				System.out.println(mv2.getMemId() + "\t" + mv2.getMemName() + "\t" 
+						+ mv2.getMemTel() + "\t" + mv2.getMemAddr());			
+			}			
+		}		
+		System.out.println("-------------------------------------------");
+		System.out.println("검색 작업 끝...");
+		
+	}
+
 	/**
 	 * 회원 정보를 삭제하는 메서드
 	 * (입력받은 회원id를 이용하여 삭제한다.)
@@ -102,26 +165,13 @@ public class T01_MemberInfoTest {
 		
 		String memId = scan.next();
 		
-		try {
-			conn = JDBCUtil3.getConnection();
-			
-			String sql = "delete from mymember where mem_id = ?";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memId);
-			int cnt = pstmt.executeUpdate();
-			
-			if(cnt > 0) {
-				System.out.println(memId + "회원 삭제 성공!");
-			}else {				
-				System.out.println(memId + "회원 삭제 실패!!!");
-			}
-			
-		}catch(SQLException ex) {
+		//기존의 try-catch, finally 반납 부분까지 대체
+		int cnt = memService.deleteMember(memId);
+		
+		if(cnt > 0) {
+			System.out.println(memId + "회원 삭제 성공!");
+		}else {				
 			System.out.println(memId + "회원 삭제 실패!!!");
-			ex.printStackTrace();
-		}finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
 		}
 	}
 
@@ -159,34 +209,18 @@ public class T01_MemberInfoTest {
 		System.out.print("회원 주소 >> ");
 		String memAddr = scan.nextLine();
 		
-		try {
-			conn = JDBCUtil3.getConnection();
-			
-			String sql = "update mymember " + 
-					"        set mem_name = ? " + 
-					"            ,mem_tel = ? " + 
-					"            ,mem_addr = ? " + 
-					"      where mem_id = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memName);
-			pstmt.setString(2, memTel);
-			pstmt.setString(3, memAddr);
-			pstmt.setString(4, memId);
-			
-			//update라서 update
-			int cnt = pstmt.executeUpdate();
-			
-			if(cnt > 0) {
-				System.out.println(memId + "회원의 정보를 수정했습니다.");
-			}else {
-				System.out.println(memId + "회원 정보 수정 실패!!!");
-			}
-			
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);			
+		MemberVO mv = new MemberVO();
+		mv.setMemId(memId);
+		mv.setMemName(memName);
+		mv.setMemTel(memTel);
+		mv.setMemAddr(memAddr);
+		
+		int cnt = memService.updateMember(mv);
+		
+		if(cnt > 0) {
+			System.out.println(memId + "회원의 정보를 수정했습니다.");
+		}else {
+			System.out.println(memId + "회원 정보 수정 실패!!!");
 		}
 		
 	}
@@ -200,34 +234,14 @@ public class T01_MemberInfoTest {
 		System.out.println("ID\t이 름\t전화번호\t\t주    소\t");
 		System.out.println("-------------------------------------------");
 		
-		//DB를 들고올 거니까, 미리 만들어둔 커넥션 들고오기
-		try {
-			conn = JDBCUtil3.getConnection();
-			
-			String sql = "select * from mymember";
-			
-			stmt = conn.createStatement();
-			
-			//select라서 update아니고 query
-			rs = stmt.executeQuery(sql);
-			
-			while(rs.next()) {
-				String memId = rs.getString("mem_id");
-				String memName = rs.getString("mem_name");
-				String memTel = rs.getString("mem_tel");
-				String memAddr = rs.getString("mem_addr");
-				
-				System.out.println(memId + "\t" + memName + "\t" + memTel + "\t" + memAddr);
-				System.out.println("-------------------------------------------");
-			}
-			System.out.println("전체 회원 출력 작업 끝...");
-			
-		}catch(SQLException ex) {
-			System.out.println("회원 자료 가져오기 실패!!!");
-			ex.printStackTrace();
-		}finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
-		}
+		//서비스 호출해서 출력할 값 들고오자
+		List<MemberVO> memList = memService.getAllMemberList();
+		for(MemberVO mv : memList) {
+			System.out.println(mv.getMemId() + "\t" + mv.getMemName() + "\t" 
+							+ mv.getMemTel() + "\t" + mv.getMemAddr());			
+		}			
+		System.out.println("-------------------------------------------");
+		System.out.println("전체 회원 출력 작업 끝...");
 	}
 
 	/**
@@ -238,6 +252,7 @@ public class T01_MemberInfoTest {
 		String memId = "";
 		
 		do {
+			//화면단
 			System.out.println();
 			System.out.println("추가할 회원 정보를 입력하세요.");
 			System.out.print("회원 ID >> ");
@@ -263,37 +278,19 @@ public class T01_MemberInfoTest {
 		System.out.print("회원 주소 >> ");
 		String memAddr = scan.nextLine();
 		
-		try {
-			conn = JDBCUtil3.getConnection();
-			
-			String sql = "insert into mymember "
-					+ " (mem_id, mem_name, mem_tel, mem_addr) "
-					+ " values(?, ?, ?, ?) ";
-			
-			pstmt = conn.prepareStatement(sql);
-			//바로 쿼리를 날려주면 돼요 안돼요?
-			//안돼요 -> 물음표 값 지정
-			
-			pstmt.setString(1, memId);
-			pstmt.setString(2, memName);
-			pstmt.setString(3, memTel);
-			pstmt.setString(4, memAddr);
-			
-			//executeQuery말고 Update 해야 한다, 파라미터 없는 거 실행하는 거니까
-			//파라미터가 있는데?? 
-			int cnt = pstmt.executeUpdate();
-			
-			if(cnt > 0) {
-				System.out.println(memId + "회원 추가 작업 성공!");
-			}else {
-				System.out.println(memId + "회원 추가 작업 실패!!!");
-			}
-								
-		}catch (SQLException ex) {
-			ex.printStackTrace();
-		}finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
-		}	
+		MemberVO mv = new MemberVO();
+		mv.setMemId(memId);
+		mv.setMemName(memName);
+		mv.setMemAddr(memAddr);
+		mv.setMemTel(memTel);
+				
+		int cnt = memService.insertMember(mv);
+		
+		if(cnt > 0) {
+			System.out.println(memId + "회원 추가 작업 성공!");
+		}else {
+			System.out.println(memId + "회원 추가 작업 실패!!!");
+		}
 		
 		
 	}
@@ -304,42 +301,19 @@ public class T01_MemberInfoTest {
 	 * @param memId 체크할 회원ID
 	 * @return 존재하면 true, 아니면 false
 	 */
+	
+	//오타 뭐야 Member
 	private boolean checkMmeber(String memId) {
 		
 		boolean check = false;
 		
-		try {
-			conn = JDBCUtil3.getConnection();
-			
-			String sql = "select count(*) as cnt from mymember "
-					+ " where mem_id = ? "; //물음표 > PreparedStatement이용
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memId);
-			
-			rs = pstmt.executeQuery();
-			
-			int count = 0;
-			
-			if(rs.next()) {
-				count = rs.getInt("cnt");
-			}
-			
-			if(count > 0) {
-				check = true;
-			}
-			
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-			check = false;
-		}finally {
-			JDBCUtil3.disConnect(conn, stmt, pstmt, rs);
-		}
+		check = memService.checkMember(memId);
 		
 		return check;
 	}
 
 	public static void main(String[] args) {
-		T01_MemberInfoTest memObj = new T01_MemberInfoTest();
+		MemberMain memObj = new MemberMain();
 		memObj.start();
 	}
 

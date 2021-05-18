@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.or.ddit.member.vo.MemberVO;
-import kr.or.ddit.util.JDBCUtil3;
+import kr.or.ddit.util.JDBCUtil;
 
 public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 클래스라는 의미
 
@@ -17,6 +17,22 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	//Singleton으로 바꾸기
+	private static IMemberDao memDao; //나 자신(인터페이스 타입)을 private으로 선언
+	
+	//생성자를 private으로 생성, 외부에서 new키워드로 객체를 만들 수 없게 하기 위해
+	private MemberDaoImpl() {
+		
+	}
+	
+	//외부에서 메서드는 사용해야 하니까 public
+	public static IMemberDao getInstance() {
+		if(memDao == null) {
+			memDao = new MemberDaoImpl();
+		}
+		return memDao;
+	}
 
 	@Override
 	public int insertMember(Connection conn, MemberVO mv) throws SQLException {
@@ -34,7 +50,7 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 		
 		int cnt = pstmt.executeUpdate();
 		
-		JDBCUtil3.disConnect(null, stmt, pstmt, rs);
+		JDBCUtil.disConnect(null, stmt, pstmt, rs);
 		//처음부터 커넥션을 여기서 만들지 않고
 		//서비스에서 파라미터로 넘겨주는 이유?
 		//여기 프로젝트에서는 이렇게 필요없지만 ...
