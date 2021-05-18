@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="memberTest">
+<!-- 
+
+	이 영역에 sql문에 맞는 태그를 사용하여 SQL문을 기술한다.
+	
+	사용할 수 있는 기본적인 태그들
+	<select> ~~ </select>
+	<insert> ~~ </insert>
+	<update> ~~ </update>
+	<delete> ~~ </delete>
+	
+	위 태그에서 사용되는 속성들
+	
+	1) id : 해당 태그를 호출할 때 <sqlMap>태그의 namespace와 연결하여 사용하는 이름
+	2) parameterClass : sql문에 사용될 데이터가 들어있는 객체를 지정한다.
+						(보통 VO클래스, 자바의 자료형이름 등이 사용된다.)
+	3) resultClass : select문을 실행한 결과를 담을 개체를 지정한다.
+					 (보통 VO클래스나 자바의 자료형 이름을 사용한다.)
+	4) resultMap : 결과 레코드 컬럼명과 VO객체의 property명이 다를 경우에 적절한 매핑을 위해 사용한다.				    
+ -->
+ 	<!-- insert 연습 -->
+	<insert id="insertMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+<!-- 	insert into mymember -->
+<!-- 	(mem_id, mem_name, mem_tel, mem_addr) -->
+<!-- 	values(?, ?, ?, ?) JDBC의 pstmt에 넣을 값 부분 -->
+
+		insert into mymember
+		(mem_id, mem_name, mem_tel, mem_addr)
+		values(#memId#, #memName#, #memTel#, #memAddr#) <!-- iBatis문법  #속성이름(property)#-->
+		
+	</insert>
+	<!-- update 연습 -->
+	<!-- parameterClass="kr.or.ddit.member.vo.MemberVO" 안 적어도 정상적으로 실행된다. -->
+	<!-- 원래는 쓰는 게 정석인데, iBatis가 알아서 계산하기도 한다. mv2 객체를 넘겨주기 때문에 유추 가능 -->
+	<update id="updateMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+	
+		update mymember 
+		set mem_name = #memName# 
+			,mem_tel = #memTel# 
+			,mem_addr = #memAddr# 
+		where mem_id = #memId# 
+	
+	</update>
+	<!-- delete 연습 -->
+	<!-- 
+		parameterClass에 설정되는 값이 단일값(즉 1개의 데이터)이면,
+		SQL문에 이 값을 나타내는 변수는 특별히 이름이 정해지지 않았다.
+		(즉, 사용자가 임의로 지정할 수 있다.)
+		//그런데 왜 String일까 ..
+	 -->
+	<delete id="deleteMember" parameterClass="String">
+	
+		delete from mymember where mem_id = #memId#
+		
+	</delete>
+	
+	<!-- select 연습 -->
+	<!-- 별칭으로 속성명과 맞춰줬다 -->
+	<!-- setMem_id이런 메서드는 없기 때문에, 이름을 맞춰줘야 한다 -->
+<!-- 	<select id="getMemberAll" resultClass="memVO"> -->
+	 	
+<!-- 	 	select mem_id as memId -->
+<!--    		 	 , mem_name as memName -->
+<!-- 		 	 , mem_tel as memTel -->
+<!-- 		 	 , mem_addr as memAddr -->
+<!-- 	 	  from mymember -->
+	 	
+<!-- 	</select> -->
+	<!-- property: VO객체의 속성, column: SQL테이블 컬럼명 -->
+	<resultMap class="memVO" id="memberMap">
+		<result property="memId" column="mem_id" />
+		<result property="memName" column="mem_name" />
+		<result property="memTel" column="mem_tel" />
+		<result property="memAddr" column="mem_addr" />
+	</resultMap>
+	<select id="getMemberAll" resultMap="memberMap"> <!-- resultClass아니라 resultMap 사용 -->
+	 	
+	 	select mem_id
+   		 	 , mem_name
+		 	 , mem_tel 
+		 	 , mem_addr
+	 	  from mymember
+	 	
+	</select>
+	<select id="getMember" resultMap="memberMap">
+		select * from mymember where mem_id = #memId#
+	</select>
+</sqlMap>			
+
+
+
+
+
