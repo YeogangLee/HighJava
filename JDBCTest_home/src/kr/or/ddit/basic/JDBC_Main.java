@@ -47,8 +47,6 @@ create sequence board_seq
  
 */
 
-//시퀀스 사용 못함
-
 public class JDBC_Main {
 	
 	private Connection conn;
@@ -153,21 +151,6 @@ public class JDBC_Main {
 						+ "\t\t" + board.get("BOARD_DATE"));
 			}
 			
-			//위의 for문 수정 - 컬럼명을 사용하지 않는 방식으로
-			//내용 컬럼만 출력 안 하고 싶은데, continue를 수행할 if문이 실행되지가 않는다.
-//			for(Map<String, Object> board : boardList){
-//				for(int i=0; i<columnCount; i++) {
-////					if(board.get(arrColumn[i]).equals("BOARD_CONTENT")
-////							|| board.get(arrColumn[i]).equals("board_content")) {
-////						System.out.println("continue 실행 " + arrColumn[i]);
-////						continue;
-////					}
-////					System.out.println("컬럼명: " + arrColumn[i]);
-//					System.out.print(board.get(arrColumn[i])+"\t\t");
-//				}
-//				System.out.println();
-//			}
-			
 			System.out.println("------------------------------------------------------------------------");
 			
 		} catch (SQLException e) {
@@ -184,9 +167,6 @@ public class JDBC_Main {
 	 * @throws IOException 
 	 */
 	private void insertBoard() {
-		
-		System.out.print("글 번호 >> ");
-		int board_no = scan.nextInt();
 		
 		scan.nextLine(); //입력버퍼 비우기
 	
@@ -206,14 +186,13 @@ public class JDBC_Main {
 			
 			String sql = "insert into jdbc_board "
 					+ " (board_no, board_title, board_writer, board_date, board_content) "
-					+ " values(?, ?, ?, SYSDATE, ?) ";
+					+ " values(board_seq.nextVal, ?, ?, SYSDATE, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, board_no);
-			pstmt.setString(2, board_title);
-			pstmt.setString(3, board_writer);
-			pstmt.setString(4, board_content);
+			pstmt.setString(1, board_title);
+			pstmt.setString(2, board_writer);
+			pstmt.setString(3, board_content);
 			
 			/* 
 			 * 값을 String으로 받더라도 Oracle.CLOB로 저장될 수 있어서,

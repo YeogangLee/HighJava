@@ -48,6 +48,10 @@ public class MemberMain {
 		memService = new MemberServiceImpl();
 	}
 	
+	public static void main(String[] args) {
+		MemberMain memObj = new MemberMain();
+		memObj.start();
+	}
 	
 	/**
 	 * 메뉴를 출력하는 메서드
@@ -157,11 +161,22 @@ public class MemberMain {
 	 * (입력받은 회원id를 이용하여 삭제한다.)
 	 */
 	private void deleteMember() {
-		System.out.println();
-		System.out.println("삭제할 회원 정보를 입력하세요.");
-		System.out.print("회원 ID >> ");
+		boolean chk = false;
+		String memId = "";
 		
-		String memId = scan.next();
+		do {
+			System.out.println();
+			System.out.println("삭제할 회원 정보를 입력하세요.");
+			System.out.print("회원 ID >> ");
+			
+			memId = scan.next();
+			
+			chk = checkMember(memId);
+			
+			if(chk == false)
+				System.out.println(memId + " 회원은 존재하지 않습니다.");
+		
+		}while(chk == false);
 		
 		//기존의 try-catch, finally 반납 부분까지 대체
 		int cnt = memService.deleteMember(memId);
@@ -288,19 +303,14 @@ public class MemberMain {
 			System.out.println(memId + "회원 추가 작업 성공!");
 		}else {
 			System.out.println(memId + "회원 추가 작업 실패!!!");
-		}
-		
-		
+		}	
 	}
 	
-
 	/**
 	 * 회원 ID를 이용하여 회원이 있는지 알려주는 메서드
 	 * @param memId 체크할 회원ID
 	 * @return 존재하면 true, 아니면 false
 	 */
-	
-	//오타 뭐야 Member
 	private boolean checkMember(String memId) {
 		
 		boolean check = false;
@@ -308,11 +318,6 @@ public class MemberMain {
 		check = memService.checkMember(memId);
 		
 		return check;
-	}
-
-	public static void main(String[] args) {
-		MemberMain memObj = new MemberMain();
-		memObj.start();
 	}
 
 }

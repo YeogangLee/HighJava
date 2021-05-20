@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import kr.or.ddit.util.JDBCUtil3;
 
 /*
@@ -42,6 +44,15 @@ public class T01_MemberInfoTest {
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	//Log4j를 이용한 로그를 남기기 위한 로거 객체 생성
+	//Log4j에 있는 Logger로 선택, Logger까지 치고 ctrl + space로 잘 보고 
+	private static final Logger SQL_LOGGER = Logger.getLogger("log4jexam.sql.Query");
+	private static final Logger PARAM_LOGGER = Logger.getLogger("log4jexam.sql.Parameter");
+	private static final Logger RESULT_LOGGER = Logger.getLogger(T01_MemberInfoTest.class);
+	
+	//보통은 하나를 사용하는데 테스트를 위해 3개 만들어서 사용 
+	
 	
 	private Scanner scan = new Scanner(System.in); 
 	
@@ -270,6 +281,8 @@ public class T01_MemberInfoTest {
 					+ " (mem_id, mem_name, mem_tel, mem_addr) "
 					+ " values(?, ?, ?, ?) ";
 			
+			SQL_LOGGER.debug("쿼리 : " + sql);
+			
 			pstmt = conn.prepareStatement(sql);
 			//바로 쿼리를 날려주면 돼요 안돼요?
 			//안돼요 -> 물음표 값 지정
@@ -279,9 +292,18 @@ public class T01_MemberInfoTest {
 			pstmt.setString(3, memTel);
 			pstmt.setString(4, memAddr);
 			
-			//executeQuery말고 Update 해야 한다, 파라미터 없는 거 실행하는 거니까
-			//파라미터가 있는데?? 
+			PARAM_LOGGER.warn("파라미터 : (" + memId
+										+ ", " + memName
+										+ ", " + memTel
+										+ ", " + memAddr + ")"
+										);
+			
 			int cnt = pstmt.executeUpdate();
+			
+			RESULT_LOGGER.debug("결과 : " + cnt);
+			
+			//로깅 프레임워크를 이용해서 로그를 남기고 있다
+			
 			
 			if(cnt > 0) {
 				System.out.println(memId + "회원 추가 작업 성공!");

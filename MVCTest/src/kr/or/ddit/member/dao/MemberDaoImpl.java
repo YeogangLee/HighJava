@@ -227,13 +227,3 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 	} 
 	
 }
-
-
-
-
-
-
-
-
-
-
