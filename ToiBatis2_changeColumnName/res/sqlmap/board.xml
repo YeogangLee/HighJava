@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="board">
+
+	<insert id="insertBoard" parameterClass="kr.or.ddit.board.vo.BoardVO">
+		
+		insert into jdbc_board
+		(board_no, board_title, board_writer, board_date, board_content)
+		values(board_seq.nextVal, #board_title#, #board_writer#, SYSDATE, #board_content#)
+		
+	</insert>
+	
+	<update id="updateBoard" parameterClass="kr.or.ddit.board.vo.BoardVO">
+	
+		UPDATE jdbc_board 
+		   SET board_title = #board_title#
+			   ,board_content = #board_content#
+			   WHERE board_no = #board_no#
+
+	</update>
+	
+	<delete id="deleteBoard" parameterClass="int">
+	
+		DELETE FROM jdbc_board WHERE board_no = #board_no#
+		
+	</delete>
+	
+	<resultMap class="boardVO" id="BoardMap">
+		<result property="board_no" column="board_no" />
+		<result property="board_title" column="board_title" />
+		<result property="board_content" column="board_content" />
+		<result property="board_writer" column="board_writer" />
+		<result property="board_date" column="board_date" />
+	</resultMap>
+	
+	<select id="getBoardAll" resultMap="BoardMap">
+
+		select board_no
+			 , board_title
+			 , board_content
+			 , board_writer
+			 , board_date
+		  from jdbc_board
+          order by board_no
+
+	</select>
+	
+	<select id="getBoard" resultClass="int">
+	
+		select count(*) as cnt from jdbc_board where board_no = #board_no#
+	
+	</select>
+	
+	<select id="getSearchBoard" parameterClass="boardVO" resultMap="BoardMap">
+		
+		select * from jdbc_board
+		where 1=1
+		<isNotEmpty property="board_no">
+			and board_no = #board_no#
+		</isNotEmpty>
+		<isNotEmpty property="board_title">
+			and board_title = #board_title#
+		</isNotEmpty>
+		<isNotEmpty property="board_content">
+			and board_content = #board_content#
+		</isNotEmpty>
+		<isNotEmpty property="board_writer">
+			and board_writer = #board_writer#
+		</isNotEmpty>
+		<isNotEmpty property="board_date">
+			and board_date = #board_date#
+		</isNotEmpty> 
+		
+	</select>
+</sqlMap>			
