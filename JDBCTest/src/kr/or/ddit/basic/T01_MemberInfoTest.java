@@ -149,7 +149,7 @@ public class T01_MemberInfoTest {
 			System.out.print("회원 ID >> ");
 			memId = scan.next();
 			
-			chk = checkMmeber(memId);		
+			chk = checkMember(memId);		
 			
 			//회원이 존재해야 수정의 의미가 있으므로
 			if(chk == false) {
@@ -254,7 +254,7 @@ public class T01_MemberInfoTest {
 			System.out.print("회원 ID >> ");
 			memId = scan.next();
 			
-			chk = checkMmeber(memId);		
+			chk = checkMember(memId);		
 			
 			if(chk == true) {
 				System.out.println("회원 ID가 " + memId + "인 회원은 이미 존재합니다."); 
@@ -326,7 +326,7 @@ public class T01_MemberInfoTest {
 	 * @param memId 체크할 회원ID
 	 * @return 존재하면 true, 아니면 false
 	 */
-	private boolean checkMmeber(String memId) {
+	private boolean checkMember(String memId) {
 		
 		boolean check = false;
 		

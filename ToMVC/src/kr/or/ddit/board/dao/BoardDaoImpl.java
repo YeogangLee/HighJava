@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import kr.or.ddit.board.vo.BoardVO;
@@ -42,6 +44,12 @@ public class BoardDaoImpl implements IBoardDao {
 		pstmt.setString(1, bv.getBoard_title());
 		pstmt.setString(2, bv.getBoard_writer());
 		pstmt.setString(3, bv.getBoard_content());
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date board_date = null;
+		board_date = format.parse(board_str2);
+		
+		
 		
 		int cnt = pstmt.executeUpdate();
 		
@@ -128,8 +136,10 @@ public class BoardDaoImpl implements IBoardDao {
 		
 		if(bv.getBoard_date() != null && !bv.getBoard_date().equals("")) {
 			java.sql.Date sqlDate = new java.sql.Date(bv.getBoard_date().getTime());
-						
-//			pstmt.setDate(index++, (java.sql.Date)bv.getBoard_date());
+			
+			
+			
+			
 			pstmt.setDate(index++, sqlDate);
 		}
 		

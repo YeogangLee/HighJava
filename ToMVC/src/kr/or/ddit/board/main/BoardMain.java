@@ -193,50 +193,49 @@ public class BoardMain {
 		
 		System.out.print("게시글 작성일 (없을시 enter키 입력) >> ");
 		String board_str2 = scan.nextLine().trim();
-				
-	    Date board_date;
-	    
+		
+		//문자열 -> 데이트
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date board_date = null;
+        try {
+        	board_date = format.parse(board_str2);
+        	System.out.println("board_date 위 : " + board_date);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+		
 	    BoardVO bv = new BoardVO();
 	    
-		try {
-			if(board_str2 == null || board_str2.equals("")) {
-				board_date = null;
-			}else {				
-				board_date = new SimpleDateFormat("yyyy-MM-dd").parse(board_str2);
-			}
-			
-			bv.setBoard_content(board_content);
+		if(board_str2 == null || board_str2.equals("")) {
+			board_date = null;
+		}else {
 			bv.setBoard_date(board_date);
-			bv.setBoard_no(board_no);
-			bv.setBoard_title(board_title);
-			bv.setBoard_writer(board_writer);			
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
+			System.out.println("board_date 아래 : " + board_date);
 		}
 		
+		bv.setBoard_content(board_content);
+		bv.setBoard_no(board_no);
+		bv.setBoard_title(board_title);
+		bv.setBoard_writer(board_writer);			
+		
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		 		
 		List<BoardVO> boardList = boardService.getSearchBoard(bv);
 		if(boardList.size() == 0) {
 			System.out.println("검색한 회원정보가 존재하지 않습니다.");
 		}else {
-			for(BoardVO bv2 : boardList) {
+			for(BoardVO bv2 : boardList) {								
+				java.util.Date date = bv2.getBoard_date();
+				String regDate = format.format(date);	
 				
-				java.sql.Date sqlDate = new java.sql.Date(bv2.getBoard_date().getTime());
-								
 				System.out.println("-------------------------------------------");
 				System.out.println("번호\t제목\t작성자\t작성일");
 				System.out.println(bv2.getBoard_no() + "\t"
 								+ bv2.getBoard_title() + "\t"
 								+ bv2.getBoard_writer() + "\t"
-//								+ (java.sql.Date)(bv2.getBoard_date()) + "\n"
-								+ sqlDate + "\n"
+								+ regDate + "\t"
 								+ "-------------------------------------------\n"
 								+ bv2.getBoard_content() + "\n\n");
-				
-//			    java.util.Date utilDate = new java.util.Date();
-//			    java.sql.Date sqlDate = new java.sql.Date(bv2.getBoard_date().getTime());
-//			    System.out.println("utilDate:" + utilDate);
-//			    System.out.println("sqlDate:" + sqlDate);
 			}
 		}		
 		System.out.println("-------------------------------------------");
