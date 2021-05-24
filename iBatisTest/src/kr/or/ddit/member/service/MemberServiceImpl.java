@@ -105,7 +105,7 @@ public class MemberServiceImpl implements IMemberService {
 	@Override
 	public List<MemberVO> getSearchMember(MemberVO mv) {
 		
-		List<MemberVO> memList = new ArrayList<>(); //생성자 부분에 <MemberVO> 해주고 싶다 ...
+		List<MemberVO> memList = new ArrayList<>(); 
 		
 		try {
 			memList = memDao.getSearchMember(smc, mv);

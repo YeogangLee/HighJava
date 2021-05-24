@@ -47,8 +47,11 @@ public class MemberMain {
 //		memService = new MemberServiceImpl();
 		memService = MemberServiceImpl.getInstance();
 	}
-	
-	
+
+	public static void main(String[] args) {
+		MemberMain memObj = new MemberMain();
+		memObj.start();
+	}	
 	
 	/**
 	 * 메뉴를 출력하는 메서드
@@ -310,11 +313,6 @@ public class MemberMain {
 		check = memService.checkMember(memId);
 		
 		return check;
-	}
-
-	public static void main(String[] args) {
-		MemberMain memObj = new MemberMain();
-		memObj.start();
 	}
 
 }
