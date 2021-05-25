@@ -50,7 +50,7 @@ public class T14_PrintStreamTest {
 		 * PrintWriter가 PrintStream보다 다양한 언어의 문자를 처리하는 데 적합하다.
 		 * 
 		 * 둘의 차이점: PrintWriter는 융통성이 있고, 보조 스트림 안에 보조 스트림을 넣을 수도 있지만
-		 * 			 PrintStream은 정해진 대로 사용해야 한다.
+		 * 			 PrintStream은 정해진 대로 사용해야 한다. + PrintStream은 IOException을 발생시키지 않는다.
 		 * 
 		 * 문자열 처리는 문자 기반 스트림으로 처리, 이름에 Reader, Writer을 포함
 		 * 보조 기능으로 Print기능을 가지고 있다는 뜻으로 PrintWriter라는 이름으로 지은 것 같아요.

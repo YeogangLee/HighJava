@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class T04_ByteArrayIOTest_Overload {
+public class T04_ByteArrayIOTest_3_Overload {
 	
 	/**
 	 * 클래스명이 스트림으로 끝난다 -> 대부분 byte기반
@@ -25,14 +25,16 @@ public class T04_ByteArrayIOTest_Overload {
 			//available() => 읽어올 수 있는 byte수를 반환
 			while(bais.available() > 0) { //0보다 크다는 건 읽을 게 아직 남았다는 뜻
 				
+				/* 잘못된 방식 */
 				//배열의 크기인 4만큼 읽어 들어오므로,
-				//남아있는 버퍼값인 쓰레기값도 같이 들어오는 방법
+				//남아있는 버퍼값인 쓰레기값도 같이 들어오는 방식
 //				//temp배열 크기만큼 읽어와 temp배열에 저장한다.
 				bais.read(temp); 
 //				
 //				//temp 내용을 출력한다
 				baos.write(temp);
 				
+				/* 옳은 방식 */
 				//실제 읽어온 byte수를 반환한다
 //				int len = bais.read(temp);
 //				
