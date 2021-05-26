@@ -33,10 +33,10 @@ public class MyHTTPServer {
 	 * @return 바이트배열
 	 */
 	private byte[] makeResponseHeader(int contentLength, String mimeType) {
-		String header = "HTTP/1.1 200 OK\r\n"
+		String header = "HTTP/1.1 200 OK\r\n" //r: carrige return, n: line return, 잘 모를때는 r,n 둘 다 사용
 			+ "Server: MyHTTPServer 1.0\r\n"
 			+ "Content-length: " + contentLength + "\r\n"
-			+ "Content-type: " + mimeType + "; charset=" + this.encoding + "\r\n\r\n";
+			+ "Content-type: " + mimeType + "; charset=" + this.encoding + "\r\n\r\n"; //empty line을 위한 r n r n
 		return header.getBytes();
 	}
 
@@ -119,9 +119,11 @@ public class MyHTTPServer {
 			OutputStream out = null;
 			BufferedReader br = null;
 			try {
+				
 				out = new BufferedOutputStream(socket.getOutputStream());
 				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
+				//문자 기반 스트림
+				
 				// 요청헤더 정보 파싱하기
 				StringBuilder request = new StringBuilder();
 				while (true) {
@@ -135,7 +137,10 @@ public class MyHTTPServer {
 					//한 줄씩 읽을 뿐, 줄바꿈을 포함하지는 않는다,
 					//그래서 readLine()메서드 이용 후 문자열을 출력할 때는 읽은 데이터 + \n을 해준다.
 					request.append(str + "\n");
+					//스트링 빌더에 1줄씩 추가
 				}
+				//브라우저: http프로토콜에 입각해서 만든 프로그램
+				//http 프로토콜 메세지 형식으로 만들어져서,브라우저에게 보낸다
 
 				System.out.println("요청헤더:\n" + request.toString());
 				System.out.println("-------------------------------------");
@@ -143,6 +148,8 @@ public class MyHTTPServer {
 				String reqPath = "";
 
 				// 요청 페이지 정보 가져오기
+				//요청 페이지 정보는 request line에 들어간다
+				//여기에 포함되는 정보 : 메서드 이름, GET이냐, POST냐, 내가 요청할 때 사용한 프로토콜의 버전
 				StringTokenizer st = new StringTokenizer(request.toString());
 				while(st.hasMoreTokens()) {
 					String token = st.nextToken();
@@ -158,11 +165,13 @@ public class MyHTTPServer {
 
 				// css파일인 경우 인식이 안되서 추가함.
 				if(contentType == null && fileName.endsWith(".css")) contentType = "text/css";
+				//파일명이 .css로 끝나면, MIME 부여
 
 				System.out.println("contentType => " + contentType);
 
 				File file = new File(fileName);
 				if(!file.exists()) {
+					//응답메세지의 statusLine을 만들어주고 있다.
 					makeErrorPage(out, 404, "Not Found");
 					return;
 				}
@@ -172,9 +181,11 @@ public class MyHTTPServer {
 				byte[] header = makeResponseHeader(body.length, contentType);
 
 				// 요청헤더가 HTTP/1.0 이거나 그 이후의 버전을 지원할 경우 MIME 헤더를 전송한다.
+				// text/html : MIME 타입이라고 한다, 미리 정해져있는 것을 사용하는 방식
 				
 				//HTTP/를 포함하지 않으면(= 다른 프로토콜), -1을 반환할테니
 				//-1이 아니어야  MIME header 전송 가능
+				//옛날에는 이런 프로토콜 형식이 아니었을 거다 ...
 				if (request.toString().indexOf("HTTP/") != -1) {
 					out.write(header); // 응답헤더 보내기
 				}
@@ -194,7 +205,10 @@ public class MyHTTPServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
+			}/*
+			 * http라는 스레드 객체를 하나 만들어서 .. 
+			 * 
+			 */
 		}
 
 		/**
