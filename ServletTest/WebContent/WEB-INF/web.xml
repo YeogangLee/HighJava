@@ -10,4 +10,73 @@
 		<servlet-name>T01_ServletLifeCycle</servlet-name>
 		<url-pattern>/T01_ServletLifeCycle</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>T02_ServletTest</servlet-name>
+		<servlet-class>kr.or.ddit.basic.T02_ServletTest</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>T02_ServletTest</servlet-name>
+		<url-pattern>/T02_ServletTest</url-pattern>	
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>T03_ServletParameterTest</servlet-name>
+		<servlet-class>kr.or.ddit.basic.T03_ServletParameterTest</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>T03_ServletParameterTest</servlet-name>
+		<url-pattern>/T03_ServletParameterTest</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ErrorHandler</servlet-name>
+		<servlet-class>kr.or.ddit.basic.T04_ErrorHandler</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ErrorHandler</servlet-name>
+		<url-pattern>/ErrorHandler</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/ErrorHandler</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/ErrorHandler</location>
+	</error-page>
+	
+	
+	<servlet>
+		<servlet-name>T05_ServletCookieTest</servlet-name>
+		<servlet-class>kr.or.ddit.basic.T05_ServletCookieTest</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>T05_ServletCookieTest</servlet-name>
+		<url-pattern>/T05_ServletCookieTest</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>T06_ServletSessionTest</servlet-name>
+		<servlet-class>kr.or.ddit.basic.T06_ServletSessionTest</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>T06_ServletSessionTest</servlet-name>
+		<url-pattern>/T06_ServletSessionTest</url-pattern>
+	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
+	
 </web-app>
