@@ -56,22 +56,19 @@
 	<select id="getSearchBoard" parameterClass="boardVO" resultMap="BoardMap">
 		
 		select * from jdbc_board
-		where 1=1
-		<isNotEmpty property="board_no">
+		where 1=1 
+		<isNotEqual property="board_no" compareValue="0">
 			and board_no = #board_no#
-		</isNotEmpty>
+		</isNotEqual>
 		<isNotEmpty property="board_title">
-			and board_title = #board_title#
+			and board_title like '%' || #board_title# || '%'
 		</isNotEmpty>
 		<isNotEmpty property="board_content">
-			and board_content = #board_content#
+			and board_content like '%' || #board_content# || '%'
 		</isNotEmpty>
 		<isNotEmpty property="board_writer">
 			and board_writer = #board_writer#
 		</isNotEmpty>
-		<isNotEmpty property="board_date">
-			and board_date = #board_date#
-		</isNotEmpty> 
 		
 	</select>
 </sqlMap>			

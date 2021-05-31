@@ -75,7 +75,9 @@ public class DOMParsingTest {
 		// getElementsByTagName()을 이용해 접근하는 게 좋다.
 		Node titleNode = firstBookChildNodeList.item(1);
 		
-		//first인데 왜 0이 아닌 1을 썼을까 => 엔터, 인덴트 같은 텍스트 노드 때문에
+		//first인데 왜 인덱스를 0이 아닌 1을 썼을까 => 엔터, 인덴트 같은 텍스트 노드 때문에
+		
+		//0번 값 확인 가능
 //		System.out.println(firstBookChildNodeList.item(0));
 				
 		

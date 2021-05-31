@@ -1,9 +1,6 @@
 package kr.or.ddit.board.main;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -72,9 +69,12 @@ public class BoardMain {
 	
 	private void displayAll() {
 		
-		System.out.println("------------------------------------------------------------------------");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd a hh:mm");
+		String wdate = "";
+		
+		System.out.println("-----------------------------------------------");
 		System.out.println("번호\t제목\t작성자\t작성일");
-		System.out.println("------------------------------------------------------------------------");
+		System.out.println("-----------------------------------------------");
 		
 			List<BoardVO> boardList = boardService.getAllBoardList();
 			
@@ -82,11 +82,13 @@ public class BoardMain {
 				System.out.println("게시글 정보가 존재하지 않습니다.");
 			}else {
 				for(BoardVO bv : boardList) {
+					wdate = sdf.format(bv.getBoard_date());
+					
 					System.out.println(bv.getBoard_no() + "\t" + bv.getBoard_title() + "\t" 
-									+ bv.getBoard_writer() + "\t" + bv.getBoard_date());			
+									+ bv.getBoard_writer() + "\t" + wdate);			
 				}
 			}
-			System.out.println("------------------------------------------------------------------------");
+			System.out.println("-----------------------------------------------");
 			
 	}
 
@@ -190,49 +192,34 @@ public class BoardMain {
 		
 		System.out.print("게시글 내용 (없을시 enter키 입력) >> ");
 		String board_content = scan.nextLine().trim();
-		
-		System.out.print("게시글 작성일 (없을시 enter키 입력) >> ");
-		String board_str2 = scan.nextLine().trim();
-		
-	    Date board_date;
-	    
+			    
 	    BoardVO bv = new BoardVO();
 	    
-		try {
-			if(board_str2 == null || board_str2.equals("")) {
-				board_date = null;
-			}else {				
-				board_date = new SimpleDateFormat("yyyy-MM-dd").parse(board_str2);
-			}
-			
-			bv.setBoard_content(board_content);
-			bv.setBoard_date(board_date);
-			bv.setBoard_no(board_no);
-			bv.setBoard_title(board_title);
-			bv.setBoard_writer(board_writer);			
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		bv.setBoard_content(board_content);
+		bv.setBoard_no(board_no);
+		bv.setBoard_title(board_title);
+		bv.setBoard_writer(board_writer);			
+	
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd a hh:mm");
+		String wdate = "";
 		
 		List<BoardVO> boardList = boardService.getSearchBoard(bv);
 		if(boardList.size() == 0) {
 			System.out.println("검색한 회원정보가 존재하지 않습니다.");
 		}else {
 			for(BoardVO bv2 : boardList) {
-				System.out.println("-------------------------------------------");
+				wdate = sdf.format(bv2.getBoard_date());
+				System.out.println("-----------------------------------------------");
 				System.out.println("번호\t제목\t작성자\t작성일");
 				System.out.println(bv2.getBoard_no() + "\t"
 								+ bv2.getBoard_title() + "\t"
 								+ bv2.getBoard_writer() + "\t"
-								+ bv2.getBoard_date() + "\n"
-								+ "-------------------------------------------\n"
+								+ wdate + "\n"
+								+ "-----------------------------------------------\n"
 								+ bv2.getBoard_content() + "\n\n");			
 			}
 		}		
-		System.out.println("-------------------------------------------");
+		System.out.println("-----------------------------------------------");
 	}
 	
-	
-
 }
