@@ -51,11 +51,11 @@ public class T05_ServletCookieTest extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-//		setCookieExam(req, resp); // 쿠키 설정 예제	
+		setCookieExam(req, resp); // 쿠키 설정 예제	
 		
 //		readCookieExam(req, resp); // 쿠키 정보 읽기 예제
 		
-		deleteCookieExam(req, resp); // 쿠키 정보 삭제 예제
+//		deleteCookieExam(req, resp); // 쿠키 정보 삭제 예제
 		
 	
 	}
@@ -80,8 +80,8 @@ public class T05_ServletCookieTest extends HttpServlet {
 	 * 브라우저가 Expires/Max-Age가 과거인, 해당 쿠키를 삭제하게 된다.
 	 */
 		
-		Cookie cookie = null;
 		Cookie[] cookies = req.getCookies();
+		Cookie cookie = null;
 		
 		//응답 헤더에 인코딩 및 Content Type 설정
 		resp.setCharacterEncoding("utf-8");
@@ -112,7 +112,7 @@ public class T05_ServletCookieTest extends HttpServlet {
 			}//for문
 			
 		}else {
-			out.print("<h2>저장된 쿠키 정보가 없습니다.</h2>");
+			out.print("<h2>등록된 쿠키 정보가 없습니다.</h2>");
 		}
 		
 		out.println("</body>");
@@ -158,7 +158,7 @@ public class T05_ServletCookieTest extends HttpServlet {
 			}
 			
 		}else {
-			out.println("<h2>쿠키 정보가 없습니다.</h2>");
+			out.println("<h2>등록된 쿠키 정보가 없습니다.</h2>");
 		}
 				
 //		out.print("</body></html>"); 왜 나눠 쓰셨지
@@ -192,6 +192,7 @@ public class T05_ServletCookieTest extends HttpServlet {
 	
 		//쿠키 생성하기
 		Cookie userId = new Cookie("userId", req.getParameter("userId"));
+//		System.out.println("req.getParameter('userId') : " +  req.getParameter("userId"));
 		
 		//쿠키 값에 한글을 사용시 인코딩 처리를 해준다.
 		Cookie name = new Cookie("name", URLEncoder.encode(req.getParameter("name"), "utf-8"));
@@ -213,7 +214,6 @@ public class T05_ServletCookieTest extends HttpServlet {
 		 * Set-Cookie: userId=a001; Expires=Tue, 01-Jun-2021 06:03:20 GMT; HttpOnly
 		 * Set-Cookie: name=%ED%99%8D%EA%B8%B8%EB%8F%99; Expires=Wed, 02-Jun-2021 06:03:20 GMT
 		 */
-		
 		
 		//응답 헤더에 쿠키 추가하기
 		resp.addCookie(userId);
