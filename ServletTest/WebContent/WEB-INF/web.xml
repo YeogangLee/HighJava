@@ -4,6 +4,7 @@
 	<servlet>
 		<servlet-name>T01_ServletLifeCycle</servlet-name>
 		<servlet-class>kr.or.ddit.basic.T01_ServletLifeCycle</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	<servlet-mapping>
@@ -43,7 +44,6 @@
 	
 	
 	
-	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/ErrorHandler</location>
@@ -53,6 +53,7 @@
 		<error-code>500</error-code>
 		<location>/ErrorHandler</location>
 	</error-page>
+	
 	
 	
 	<servlet>
@@ -79,4 +80,102 @@
 		<session-timeout>1</session-timeout>
 	</session-config>
 	
+	<servlet>
+		<servlet-name>T07_ServletContextTest</servlet-name>
+		<servlet-class>kr.or.ddit.basic.T07_ServletContextTest</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>T07_ServletContextTest</servlet-name>
+		<url-pattern>/T07_ServletContextTest</url-pattern>
+	</servlet-mapping>
+	
+ 	<filter>
+ 		<filter-name>CharacterEncoding</filter-name>
+ 		<filter-class>kr.or.ddit.basic.CustomCharacterEncoding</filter-class>
+<!--  		<init-param> -->
+<!--  			<param-name>encoding</param-name> -->
+<!--  			<param-value>euc-kr</param-value> -->
+<!--  		</init-param> -->
+ 	</filter>
+ 	
+ 	<filter-mapping>
+ 		<filter-name>CharacterEncoding</filter-name>
+ 		<url-pattern>/*</url-pattern>
+ 	</filter-mapping>
+
+<!-- 
+	<filter>
+		<filter-name>LogFilter</filter-name>
+		<filter-class>kr.or.ddit.basic.T08_ServletFilter</filter-class>
+		<init-param>
+			<param-name>init-param</param-name>
+			<param-value>로그필터입니다.</param-value>
+		</init-param>		
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>LogFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>CalcTimeFilter</filter-name>
+		<filter-class>kr.or.ddit.basic.T08_ServletFilter2</filter-class>		
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>CalcTimeFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+ -->
+
+ 	
+ 	<listener>
+ 		<display-name>MyServletContextListener</display-name>
+ 		<listener-class>kr.or.ddit.basic.MyServletContextListener</listener-class>
+ 	</listener>
+ 	
+ 	<listener>
+ 		<display-name>MyServletRequestListener</display-name>
+ 		<listener-class>kr.or.ddit.basic.MyServletRequestListener</listener-class>
+ 	</listener>
+ 	
+ 	<listener>
+ 		<display-name>MySessionListener</display-name>
+ 		<listener-class>kr.or.ddit.basic.MySessionListener</listener-class>
+ 	</listener>
+ 	
+ 	
+ 	<servlet>
+ 		<servlet-name>T09_ServletContextListenerTest</servlet-name>
+ 		<servlet-class>kr.or.ddit.basic.T09_ServletContextListenerTest</servlet-class>
+ 	</servlet>
+ 
+ 	<servlet-mapping>
+ 		<servlet-name>T09_ServletContextListenerTest</servlet-name>
+ 		<url-pattern>/T09_ServletContextListenerTest</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<servlet>
+ 		<servlet-name>T10_ServletRequestListenerTest</servlet-name>
+ 		<servlet-class>kr.or.ddit.basic.T10_ServletRequestListenerTest</servlet-class>
+ 	</servlet>
+ 
+ 	<servlet-mapping>
+ 		<servlet-name>T10_ServletRequestListenerTest</servlet-name>
+ 		<url-pattern>/T10_ServletRequestListenerTest</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<servlet>
+ 		<servlet-name>T11_SessionListenerTest</servlet-name>
+ 		<servlet-class>kr.or.ddit.basic.T11_SessionListenerTest</servlet-class>
+ 	</servlet>
+ 
+ 	<servlet-mapping>
+ 		<servlet-name>T11_SessionListenerTest</servlet-name>
+ 		<url-pattern>/T11_SessionListenerTest</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 
 </web-app>
