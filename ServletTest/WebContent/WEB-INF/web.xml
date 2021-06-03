@@ -177,5 +177,16 @@
  		<url-pattern>/T11_SessionListenerTest</url-pattern>
  	</servlet-mapping>
  	
+ 	
+ 	<servlet>
+ 		<servlet-name>SelectAllMemberServlet</servlet-name>
+ 		<servlet-class>kr.or.ddit.member.controller.SelectAllMemberServlet</servlet-class>
+ 	</servlet>
+ 	
+ 	<servlet-mapping>
+ 		<servlet-name>SelectAllMemberServlet</servlet-name>
+ 		<url-pattern>/member/list</url-pattern>
+ 	</servlet-mapping>
+ 	
  
 </web-app>

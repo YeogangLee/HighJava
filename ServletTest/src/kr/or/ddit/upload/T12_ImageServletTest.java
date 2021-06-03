@@ -1,4 +1,4 @@
-package kr.or.ddit.basic;
+package kr.or.ddit.upload;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -32,8 +32,13 @@ public class T12_ImageServletTest extends HttpServlet {
 		BufferedOutputStream bos = new BufferedOutputStream(out);
 		//out으로 쏴줄 거니까, 쏴주면 나중에 톰캣이 리스폰스 메세지에 맞게 브라우저로 쏴준다
 		
-		int readBytes = 0; //읽은 바이트수
-		while((readBytes = bis.read())!= -1) {
+//		int readBytes = 0; //읽은 바이트수
+//		while((readBytes = bis.read())!= -1) {
+//			bos.write(readBytes);
+//		}
+		
+		int readBytes = 0;
+		while((readBytes = bis.read()) != -1) {
 			bos.write(readBytes);
 		}
 		

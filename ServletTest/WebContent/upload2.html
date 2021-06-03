@@ -14,5 +14,18 @@
 		<br>
 		<input type="submit" value="업로드">
 	</form>
+	<br>
+	<br>
+	<br>
+	<h2>서블릿3부터 지원하는 Part 인터페이스를 이용한 파일 업로드</h2>
+	<!-- "upload3"앞에 아무것도 없으면, 상대경로 -->
+	<form action="upload3" method="post" enctype="multipart/form-data">
+		선택한 파일 : 
+		<input type="file" name="fname">
+		<br>
+		전송자 : <input type="text" name="sender">
+		<br>
+		<input type="submit" value="업로드">
+	</form>	
 </body>
 </html>
