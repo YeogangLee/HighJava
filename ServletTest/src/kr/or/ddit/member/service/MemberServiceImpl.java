@@ -94,7 +94,7 @@ public class MemberServiceImpl implements IMemberService {
 		boolean chk = false;
 		
 		try {
-			chk = memDao.getMember(smc, memId);
+			chk = memDao.checkMember(smc, memId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -114,6 +114,20 @@ public class MemberServiceImpl implements IMemberService {
 		}
 		
 		return memList;
+	}
+
+	@Override
+	public MemberVO getMember(String memId) {
+		
+		MemberVO mv = null;
+		
+		try {
+			mv = memDao.getMember(smc, memId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return mv;
 	}
 	
 }

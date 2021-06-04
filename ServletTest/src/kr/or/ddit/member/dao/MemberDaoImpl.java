@@ -50,11 +50,11 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 	}
 
 	@Override
-	public boolean getMember(SqlMapClient smc, String memId) throws SQLException {
+	public boolean checkMember(SqlMapClient smc, String memId) throws SQLException {
 		
 		boolean check = false;
 		
-		int count = (int) smc.queryForObject("member.getMember", memId);
+		int count = (int) smc.queryForObject("member.checkMember", memId);
 		
 		if(count > 0) {
 			check = true;
@@ -95,6 +95,17 @@ public class MemberDaoImpl implements IMemberDao { //MemberDao의 실제 구현 
 				smc.queryForList("member.getSearchMember", mv);
 		
 		return memList;
+	}
+
+	@Override
+	public MemberVO getMember(SqlMapClient smc, String memId) throws SQLException {
+		
+		//member라는 네임스페이스를 사용
+		MemberVO mv = (MemberVO) smc.queryForObject("member.getMember", memId);
+		
+		return mv;
+		
+		//여기까지 작성 후 res폴더 > sqlmap패키지 > member.xml로 이동
 	}
 	
 }

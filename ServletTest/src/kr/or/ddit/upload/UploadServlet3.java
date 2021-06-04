@@ -48,6 +48,7 @@ public class UploadServlet3 extends HttpServlet {
 				if(fileName != null && !fileName.equals("")) {
 					part.write(uploadPath + File.separator + fileName); //파일 저장
 					resp.getWriter().print(fileName + " 업로드 완료");
+					resp.getWriter().print(" / 전송자 : " + req.getParameter("sender"));
 				}
 				
 			}		

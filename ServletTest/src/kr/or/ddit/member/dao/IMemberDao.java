@@ -1,6 +1,5 @@
 package kr.or.ddit.member.dao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public interface IMemberDao {
 	 * @return		해당 회원ID가 있으면 true, 없으면 false 
 	 * @throws SQLException	JDBC관련 예외 객체
 	 */
-	public boolean getMember(SqlMapClient smc, String memId) throws SQLException;
+	public boolean checkMember(SqlMapClient smc, String memId) throws SQLException;
 	
 	/**
 	 * DB의 mymember 테이블 전체 레코드를 가져와 List에 담아 반환하는 메서드
@@ -70,5 +69,13 @@ public interface IMemberDao {
 	 * @throws SQLException	JDBC관련 예외 객체
 	 */
 	public List<MemberVO> getSearchMember(SqlMapClient smc, MemberVO mv) throws SQLException;
-	
+
+	/**
+	 * 주어진 회원ID에 해당하는 회원정보를 조회하는 메서드  
+	 * @param smc	SqlMapClient 객체
+	 * @param memId	검색할 회원 ID
+	 * @return		회원정보를 담은 MemberVO 객체 
+	 * @throws SQLException	JDBC관련 예외 객체
+	 */
+	public MemberVO getMember(SqlMapClient smc, String memId) throws SQLException;
 }

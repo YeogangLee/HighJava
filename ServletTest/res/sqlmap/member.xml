@@ -45,11 +45,18 @@
 <!-- 	<select id="getMember" resultMap="memberMap"> -->
 <!-- 		select * from mymember where mem_id = #memId# -->
 <!-- 	</select> -->
-	<select id="getMember" resultClass="int">
+	<select id="checkMember" resultClass="int">
 	
 		select count(*) as cnt from mymember where mem_id = #memId#
 	
 	</select>
+	
+	<select id="getMember" resultMap="memberMap">
+	
+		select * from mymember where mem_id = #memId#
+	
+	</select>
+	
 	<select id="getSearchMember" parameterClass="memVO" resultMap="memberMap">
 		
 		select * from mymember

@@ -188,5 +188,47 @@
  		<url-pattern>/member/list</url-pattern>
  	</servlet-mapping>
  	
+ 	
+ 	<servlet>
+ 		<servlet-name>InsertMemberServlet</servlet-name>
+ 		<servlet-class>kr.or.ddit.member.controller.InsertMemberServlet</servlet-class>
+ 	</servlet>
+ 	
+ 	<servlet-mapping>
+ 		<servlet-name>InsertMemberServlet</servlet-name>
+ 		<url-pattern>/member/insert</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	
+ 	<servlet>
+ 		<servlet-name>UpdateMemberServlet</servlet-name>
+ 		<servlet-class>kr.or.ddit.member.controller.UpdateMemberServlet</servlet-class>
+ 	</servlet>
+ 	
+ 	<servlet-mapping>
+ 		<servlet-name>UpdateMemberServlet</servlet-name>
+ 		<url-pattern>/member/update</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	
+ 	<servlet>
+ 		<servlet-name>ViewMemberServlet</servlet-name>
+ 		<servlet-class>kr.or.ddit.member.controller.ViewMemberServlet</servlet-class>
+ 	</servlet>
+ 	
+ 	<servlet-mapping>
+ 		<servlet-name>ViewMemberServlet</servlet-name>
+ 		<url-pattern>/member/detail</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<servlet>
+ 		<servlet-name>DeleteMemberServlet</servlet-name>
+ 		<servlet-class>kr.or.ddit.member.controller.DeleteMemberServlet</servlet-class>
+ 	</servlet>
+ 	
+ 	<servlet-mapping>
+ 		<servlet-name>DeleteMemberServlet</servlet-name>
+ 		<url-pattern>/member/delete</url-pattern>
+ 	</servlet-mapping>
  
 </web-app>
