@@ -33,7 +33,7 @@
 		
 		<tr>
 			<td><%=memList.get(i).getMemId() %></td>
-			<!-- select앞에 아무것도 없어서 상대경로 -->
+			<!-- detail앞에 아무것도 없어서 상대경로 -->
 			<td><a href="detail?memId=<%=memList.get(i).getMemId() %>"><%=memList.get(i).getMemName() %></a></td>
 			<td><%=memList.get(i).getMemTel() %></td>
 			<td><%=memList.get(i).getMemAddr() %></td>
@@ -58,13 +58,15 @@ if(msg.equals("성공")) {
 %>
 	<script type="text/javascript">
 		alert('정상적으로 처리되었습니다.');
-		//이렇게하면.. jsp실행할때마다 실행되겠죠, 할때마다 계속
-		//이건 진짜 삭제나 insert후에 해야한다.
-		//우리가 계속 만들었던 msg를 사용, 위에 String msg 작성
+	</script>
+<%
+}else if(msg.equals("실패")) {
+%>
+	<script type="text/javascript">
+		alert('요청 작업 수행에 실패했습니다.');
 	</script>
 <%
 }
 %>
-
 </body>
 </html>

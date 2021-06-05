@@ -230,5 +230,16 @@
  		<servlet-name>DeleteMemberServlet</servlet-name>
  		<url-pattern>/member/delete</url-pattern>
  	</servlet-mapping>
+ 	
+ 	
+ 	<servlet>
+ 		<servlet-name>_myAll</servlet-name>
+ 		<servlet-class>kr.or.ddit.member.controller._myAll</servlet-class>
+ 	</servlet>
+ 	
+ 	<servlet-mapping>
+ 		<servlet-name>_myAll</servlet-name>
+ 		<url-pattern>/member/_myAll</url-pattern>
+ 	</servlet-mapping>
  
 </web-app>
