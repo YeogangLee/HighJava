@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+
+	<insert id="insertMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+
+		insert into mymember
+		(mem_id, mem_name, mem_tel, mem_addr)
+		values(#memId#, #memName#, #memTel#, #memAddr#) <!-- iBatis문법  #속성이름(property)#-->
+		
+	</insert>
+	<update id="updateMember" parameterClass="kr.or.ddit.member.vo.MemberVO">
+	
+		update mymember 
+		set mem_name = #memName# 
+			,mem_tel = #memTel# 
+			,mem_addr = #memAddr# 
+		where mem_id = #memId# 
+	
+	</update>
+	
+	<delete id="deleteMember" parameterClass="String">
+	
+		delete from mymember where mem_id = #memId#
+		
+	</delete>
+	
+	<resultMap class="memVO" id="memberMap">
+		<result property="memId" column="mem_id" />
+		<result property="memName" column="mem_name" />
+		<result property="memTel" column="mem_tel" />
+		<result property="memAddr" column="mem_addr" />
+	</resultMap>
+	<select id="getMemberAll" resultMap="memberMap">
+	 	
+	 	select mem_id
+   		 	 , mem_name
+		 	 , mem_tel 
+		 	 , mem_addr
+	 	  from mymember
+	 	
+	</select>
+<!-- 	<select id="getMember" resultMap="memberMap"> -->
+<!-- 		select * from mymember where mem_id = #memId# -->
+<!-- 	</select> -->
+	<select id="checkMember" resultClass="int">
+	
+		select count(*) as cnt from mymember where mem_id = #memId#
+	
+	</select>
+	
+	<select id="getMember" resultMap="memberMap">
+	
+		select * from mymember where mem_id = #memId#
+	
+	</select>
+	
+	<select id="getSearchMember" parameterClass="memVO" resultMap="memberMap">
+		
+		select * from mymember
+		where 1=1
+		<isNotEmpty property="memId">
+			and mem_id = #memId#
+		</isNotEmpty>
+		<isNotEmpty property="memName">
+			and mem_name = #memName#
+		</isNotEmpty>
+		<isNotEmpty property="memTel">
+			and mem_tel = #memTel#
+		</isNotEmpty>
+		<isNotEmpty property="memAddr">
+			and mem_addr like '%' || #memAddr# || '%'
+		</isNotEmpty> 
+		
+		
+	</select>
+</sqlMap>			
+
+
+
+
+
