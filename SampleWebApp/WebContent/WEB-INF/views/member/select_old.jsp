@@ -1,9 +1,13 @@
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.cmm.vo.AtchFileVO"%>
 <%@page import="kr.or.ddit.member.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
 <%
 	MemberVO memVO = (MemberVO)request.getAttribute("memVO");
+
+	List<AtchFileVO> atchFileList = (List<AtchFileVO>)request.getAttribute("atchFileList");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -28,6 +32,26 @@
 		<tr>
 			<td>주소 : </td>
 			<td><%=memVO.getMemAddr() %></td>
+		</tr>
+		<tr>
+			<td>첨부파일 : </td>
+			<td>
+				<%if(atchFileList != null) { %>
+					<%for(AtchFileVO fileVO : atchFileList) { %>
+					
+					<div>
+						<a href="<%=request.getContextPath()%>/filedownload.do?fileId=<%=fileVO.getAtchFileId()%>
+																				&fileSn=<%=fileVO.getFileSn()%>">
+							<%=fileVO.getOrignlFileNm() %>
+						</a>
+					</div>	
+					
+					<%} %>
+					
+					
+						
+				<%} %>
+			</td>
 		</tr>		
 		<tr>
 			<td colspan="2">
